@@ -32,6 +32,8 @@ Type `ear` in Alfred to check battery or switch between all ANC modes:
 - [Alfred 5](https://www.alfredapp.com/) with the [Powerpack](https://www.alfredapp.com/powerpack/) (required for workflows)
 - Nothing Ear 2 headphones paired to your Mac via Bluetooth
 
+> Other Nothing Ear models (Ear (1), Ear (a), CMF Buds etc.) likely use the same protocol and may work, but have not been tested.
+
 ## Installation
 
 1. Download `NothingEar2.alfredworkflow` from this repo
