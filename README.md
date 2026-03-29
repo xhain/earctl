@@ -4,7 +4,7 @@ An Alfred workflow for controlling the noise cancellation mode on **Nothing Ear 
 
 > **Disclaimer:** This is an unofficial, community-made tool and is not affiliated with, endorsed by, or associated with Nothing Technology Limited in any way. "Nothing" and "Nothing Ear" are trademarks of Nothing Technology Limited.
 
-![earctl workflow](workflow/icon.png)
+![earctl workflow](alfred_screenshot.png)
 
 ## Features
 
