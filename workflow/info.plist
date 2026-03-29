@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.nothingxfred.workflow</string>
+	<key>category</key>
+	<string>Tools</string>
+	<key>connections</key>
+	<dict>
+		<key>A0000001-0000-0000-0000-000000000001</key>
+		<array>
+			<dict>
+				<key>destinationuid</key><string>B0000001-0000-0000-0000-000000000001</string>
+				<key>modifiers</key><integer>0</integer>
+				<key>modifiersubtext</key><string></string>
+				<key>vitoclose</key><true/>
+			</dict>
+		</array>
+		<key>B0000001-0000-0000-0000-000000000001</key>
+		<array>
+			<dict>
+				<key>destinationuid</key><string>C0000001-0000-0000-0000-000000000001</string>
+				<key>modifiers</key><integer>0</integer>
+				<key>modifiersubtext</key><string></string>
+				<key>vitoclose</key><false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>xhain</string>
+	<key>description</key>
+	<string>Control Nothing Ear 2 noise cancellation from Alfred</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>earctl</string>
+	<key>objects</key>
+	<array>
+
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key><true/>
+				<key>argumenttype</key><integer>0</integer>
+				<key>escaping</key><integer>0</integer>
+				<key>keyword</key><string>ear</string>
+				<key>runningsubtext</key><string></string>
+				<key>script</key><string>cat &lt;&lt;'EOF'
+{"items":[
+  {"uid":"battery","title":"Battery","subtitle":"Check battery levels","arg":"battery","icon":{"path":"icons/battery.png"}},
+  {"uid":"off","title":"Off","subtitle":"Disable noise control","arg":"off","icon":{"path":"icons/off.png"}},
+  {"uid":"transparency","title":"Transparency","subtitle":"Hear your surroundings","arg":"transparency","icon":{"path":"icons/transparency.png"}},
+  {"uid":"high","title":"Noise Cancellation (High)","subtitle":"Maximum noise cancellation","arg":"high","icon":{"path":"icons/high.png"}},
+  {"uid":"mid","title":"Noise Cancellation (Mid)","subtitle":"Moderate noise cancellation","arg":"mid","icon":{"path":"icons/mid.png"}},
+  {"uid":"low","title":"Noise Cancellation (Low)","subtitle":"Light noise cancellation","arg":"low","icon":{"path":"icons/low.png"}},
+  {"uid":"adaptive","title":"Adaptive","subtitle":"Automatically adjust noise cancellation","arg":"adaptive","icon":{"path":"icons/adaptive.png"}}
+]}
+EOF</string>
+				<key>scriptargtype</key><integer>0</integer>
+				<key>subtext</key><string>Select a noise cancellation mode</string>
+				<key>title</key><string>earctl</string>
+				<key>type</key><integer>0</integer>
+				<key>withspace</key><false/>
+			</dict>
+			<key>type</key><string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key><string>A0000001-0000-0000-0000-000000000001</string>
+			<key>version</key><integer>3</integer>
+		</dict>
+
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key><false/>
+				<key>escaping</key><integer>0</integer>
+				<key>script</key><string>xattr -d com.apple.quarantine ./bin/nothing-ctl 2&gt;/dev/null
+if [ "{query}" = "battery" ]; then
+  ./bin/nothing-ctl battery 2&gt;/dev/null | tr '\n' '  '
+else
+  ./bin/nothing-ctl anc {query} &gt;/dev/null
+fi</string>
+				<key>scriptargtype</key><integer>0</integer>
+				<key>scriptfile</key><string></string>
+				<key>type</key><integer>0</integer>
+			</dict>
+			<key>type</key><string>alfred.workflow.action.script</string>
+			<key>uid</key><string>B0000001-0000-0000-0000-000000000001</string>
+			<key>version</key><integer>2</integer>
+		</dict>
+
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key><false/>
+				<key>onlyshowifquerypopulated</key><true/>
+				<key>removeextension</key><false/>
+				<key>title</key><string>Battery</string>
+				<key>text</key><string>{query}</string>
+			</dict>
+			<key>type</key><string>alfred.workflow.output.notification</string>
+			<key>uid</key><string>C0000001-0000-0000-0000-000000000001</string>
+			<key>version</key><integer>1</integer>
+		</dict>
+
+	</array>
+	<key>readme</key>
+	<string>Control Nothing Ear 2 noise cancellation from Alfred.
+
+Type "ear" to see all modes. Select one and press Enter to activate.
+
+Requirements:
+- Nothing Ear 2 paired and connected via Bluetooth
+- Alfred must have Bluetooth permission (System Settings &gt; Privacy &amp; Security &gt; Bluetooth)
+
+Build the CLI:
+  cd cli &amp;&amp; swift build -c release
+  cp .build/release/nothing-ctl ../workflow/bin/nothing-ctl
+</string>
+	<key>uidata</key>
+	<dict>
+		<key>A0000001-0000-0000-0000-000000000001</key><dict><key>xpos</key><integer>60</integer><key>ypos</key><integer>160</integer></dict>
+		<key>B0000001-0000-0000-0000-000000000001</key><dict><key>xpos</key><integer>320</integer><key>ypos</key><integer>160</integer></dict>
+		<key>C0000001-0000-0000-0000-000000000001</key><dict><key>xpos</key><integer>580</integer><key>ypos</key><integer>160</integer></dict>
+	</dict>
+	<key>version</key>
+	<string>1.0</string>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
