@@ -132,6 +132,10 @@ Make sure your Nothing Ear 2 are:
 - In your ears (they disconnect when in the case)
 - Connected to your Mac via Bluetooth (check the menu bar)
 
+### Gatekeeper / "unidentified developer" warning
+
+The bundled `nothing-ctl` binary is not signed with an Apple Developer certificate. The workflow automatically strips the macOS quarantine flag on first run (`xattr -d com.apple.quarantine`) so Gatekeeper won't block it. If you'd rather not rely on this, you can [build the binary from source](#building-from-source) — compiled locally, it carries no quarantine flag.
+
 ### First run is slow
 
 The first command after a long idle may take 2–3 seconds while the RFCOMM channel is opened. Subsequent commands are faster.
