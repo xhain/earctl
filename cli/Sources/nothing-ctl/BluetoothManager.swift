@@ -33,9 +33,21 @@ final class BluetoothManager: NSObject {
     var onData: (([UInt8]) -> Void)?
 
     func findDevice() -> IOBluetoothDevice? {
-        (IOBluetoothDevice.pairedDevices() ?? [])
+        let candidates = (IOBluetoothDevice.pairedDevices() ?? [])
             .compactMap { $0 as? IOBluetoothDevice }
-            .first(where: { $0.classOfDevice == nothingDeviceClass })
+            .filter { $0.classOfDevice == nothingDeviceClass }
+
+        // Prefer the device with the NT Link UUID — unambiguous Nothing identification.
+        if let ntDevice = candidates.first(where: { hasNTLinkService($0) }) {
+            return ntDevice
+        }
+        // Fall back to connected device with matching class.
+        return candidates.first(where: { $0.isConnected() }) ?? candidates.first
+    }
+
+    private func hasNTLinkService(_ device: IOBluetoothDevice) -> Bool {
+        guard let services = device.services as? [IOBluetoothSDPServiceRecord] else { return false }
+        return services.contains { serviceContainsUUID($0, uuid: nothingNTLinkUUID) }
     }
 
     // Discover the RFCOMM channel ID via SDP.
